@@ -40,4 +40,8 @@ public class RLAgent extends Agent {
     private Action chooseAction() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    private void updateQMatrix() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
