@@ -15,6 +15,8 @@
  */
 package rlagent;
 
+import java.util.List;
+
 /**
  * @author deglavs
  */
@@ -26,4 +28,6 @@ public interface Environment {
             throws MyException;
 
     public boolean isGoalState(State state) throws MyException;
+
+    public List<State> getStartStates();
 }
