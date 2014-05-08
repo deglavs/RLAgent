@@ -28,6 +28,11 @@ public class RLAgent extends Agent {
     }
 
     @Override
+    public void observeGoalState(State state, int reward) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Action observeState(State newState, int reward) {
         return chooseAction();
     }

@@ -24,7 +24,7 @@ public interface Environment {
 
     public int getReward(State state, Action action) throws MyException;
 
-    public int getNextState(State state, Action action)
+    public State getNextState(State state, Action action)
             throws MyException;
 
     public boolean isGoalState(State state) throws MyException;
