@@ -22,12 +22,17 @@ public class RLAgent extends Agent {
     }
 
     @Override
-    public State observeStartState(State state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Action observeStartState(State state) {
+        setCurrentState(state);
+        return chooseAction();
     }
 
     @Override
-    public State observeState(State newState, int reward) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Action observeState(State newState, int reward) {
+        return chooseAction();
+    }
+
+    private Action chooseAction() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

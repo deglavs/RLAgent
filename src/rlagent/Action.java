@@ -16,7 +16,6 @@
 package rlagent;
 
 /**
- *
  * @author deglavs
  */
 public class Action {

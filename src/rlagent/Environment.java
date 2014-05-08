@@ -15,10 +15,7 @@
  */
 package rlagent;
 
-import java.util.List;
-
 /**
- *
  * @author deglavs
  */
 public interface Environment {

@@ -17,14 +17,23 @@
 package rlagent;
 
 /**
- *
  * @author deglavs
  */
 public abstract class Agent {
     private State currentState;
-    
+
     public Agent() {
     }
-    public abstract State observeStartState(State state);
-    public abstract State observeState(State newState, int reward);
+
+    public abstract Action observeStartState(State state);
+
+    public abstract Action observeState(State newState, int reward);
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
 }
