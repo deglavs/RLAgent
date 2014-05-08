@@ -15,19 +15,15 @@
  */
 package rlagent;
 
-public class RLAgent extends Agent {
+/**
+ *
+ * @author deglavs
+ */
+public class Action {
 
-    public RLAgent() {
-        super();
-    }
+    private String name;
 
-    @Override
-    public State observeStartState(State state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public State observeState(State newState, int reward) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Action(String name) {
+        this.name = name;
     }
 }

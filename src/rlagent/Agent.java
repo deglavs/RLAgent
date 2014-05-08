@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package rlagent;
 
-public class RLAgent extends Agent {
-
-    public RLAgent() {
-        super();
+/**
+ *
+ * @author deglavs
+ */
+public abstract class Agent {
+    private State currentState;
+    
+    public Agent() {
     }
-
-    @Override
-    public State observeStartState(State state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public State observeState(State newState, int reward) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract State observeStartState(State state);
+    public abstract State observeState(State newState, int reward);
 }

@@ -15,19 +15,18 @@
  */
 package rlagent;
 
-public class RLAgent extends Agent {
+import java.util.List;
 
-    public RLAgent() {
-        super();
-    }
+/**
+ *
+ * @author deglavs
+ */
+public interface Environment {
 
-    @Override
-    public State observeStartState(State state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public int getReward(State state, Action action) throws MyException;
 
-    @Override
-    public State observeState(State newState, int reward) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public int getNextState(State state, Action action)
+            throws MyException;
+
+    public boolean isGoalState(State state) throws MyException;
 }
