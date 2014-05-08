@@ -15,25 +15,39 @@
  */
 package rlagent;
 
+import java.util.HashMap;
+
 public class RLAgent extends Agent {
+    private HashMap<State, ActionQValues> qMatrix;
+    private State previousState;
 
     public RLAgent() {
         super();
+        qMatrix = new HashMap();
     }
 
     @Override
     public Action observeStartState(State state) {
+        if (!qMatrix.containsKey(state)) {
+            qMatrix.put(state, new ActionQValues(state.getActions()));
+        }
         setCurrentState(state);
         return chooseAction();
     }
 
     @Override
     public void observeGoalState(State state, int reward) {
+        if (!qMatrix.containsKey(state)) {
+            qMatrix.put(state, new ActionQValues(state.getActions()));
+        }
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Action observeState(State newState, int reward) {
+        if (!qMatrix.containsKey(newState)) {
+            qMatrix.put(newState, new ActionQValues(newState.getActions()));
+        }
         return chooseAction();
     }
 
