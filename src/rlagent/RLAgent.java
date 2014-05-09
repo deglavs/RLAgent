@@ -15,6 +15,7 @@
  */
 package rlagent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RLAgent extends Agent {
@@ -22,9 +23,16 @@ public class RLAgent extends Agent {
     private State previousState;
     private Action lastAction;
 
-    public RLAgent() {
+    /* Learning rate. */
+    private double alpha;
+    /* Discount factor. */
+    private double gamma;
+
+    public RLAgent(double gamma, double alpha) {
         super();
         qMatrix = new HashMap();
+        this.gamma = gamma;
+        this.alpha = alpha;
     }
 
     @Override
@@ -38,7 +46,7 @@ public class RLAgent extends Agent {
     }
 
     @Override
-    public void observeGoalState(State state, int reward) {
+    public void observeGoalState(State state, int reward) throws MyException {
         if (!qMatrix.containsKey(state)) {
             qMatrix.put(state, new ActionQValues(state.getActions()));
         }
@@ -47,7 +55,7 @@ public class RLAgent extends Agent {
     }
 
     @Override
-    public Action observeState(State newState, int reward) {
+    public Action observeState(State newState, int reward) throws MyException {
         if (!qMatrix.containsKey(newState)) {
             qMatrix.put(newState, new ActionQValues(newState.getActions()));
         }
@@ -61,7 +69,47 @@ public class RLAgent extends Agent {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void updateQMatrix(int reward) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private void updateQMatrix(int reward) throws MyException {
+        double oldQValue = getQValue(previousState, lastAction);
+        double newQValue = reward + (gamma * getMaxQValue(getCurrentState()));
+        double tdError = newQValue - oldQValue;
+        double newEstimate = oldQValue + (alpha * tdError);
+        setQValue(previousState, lastAction, newEstimate);
+    }
+
+    private double getMaxQValue(State fromState) throws MyException {
+        /* All possible actions from the state. */
+        ArrayList<Action> actions = fromState.getActions();
+
+		/* Set maxQValue to the first action's value. */
+        double maxQValue = getQValue(fromState, actions.get(0));
+
+		/* Iterate through all the possible actions and reset the maxQValue if a
+		 * bigger value is found. */
+        if (actions.size() > 1) {
+            for (int i = 1; i < actions.size(); i++) {
+                if (getQValue(fromState, actions.get(i)) > maxQValue) {
+                    maxQValue = getQValue(fromState, actions.get(i));
+                }
+            }
+        }
+        return maxQValue;
+    }
+
+    private double getQValue(State state, Action action) throws MyException {
+        if (qMatrix.containsKey(state)) {
+            ActionQValues actionQValues = qMatrix.get(state);
+            return actionQValues.getQValue(action);
+        }
+        throw new MyException("No state in qMatrix: " + state);
+    }
+
+    private void setQValue(State fromState, Action action, double qValue)
+            throws MyException {
+        if (qMatrix.containsKey(fromState)) {
+            ActionQValues actionQValues = qMatrix.get(fromState);
+            actionQValues.setQValue(action, qValue);
+        }
+        throw new MyException("No state in qMatrix: " + fromState);
     }
 }

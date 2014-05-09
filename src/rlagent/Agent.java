@@ -27,9 +27,9 @@ public abstract class Agent {
 
     public abstract Action observeStartState(State state);
 
-    public abstract void observeGoalState(State state, int reward);
+    public abstract void observeGoalState(State state, int reward) throws MyException;
 
-    public abstract Action observeState(State newState, int reward);
+    public abstract Action observeState(State newState, int reward) throws MyException;
 
     public State getCurrentState() {
         return currentState;
