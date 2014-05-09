@@ -17,22 +17,27 @@ package rlagent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class RLAgent extends Agent {
     private HashMap<State, ActionQValues> qMatrix;
     private State previousState;
     private Action lastAction;
-
+    private Policy policy;
+    private Random random;
     /* Learning rate. */
     private double alpha;
     /* Discount factor. */
     private double gamma;
+    private double epsilon;
 
-    public RLAgent(double gamma, double alpha) {
+    public RLAgent(double gamma, double alpha, double epsilon, Policy policy) {
         super();
         qMatrix = new HashMap();
         this.gamma = gamma;
         this.alpha = alpha;
+        this.epsilon = epsilon;
+        this.policy = policy;
     }
 
     @Override
@@ -66,7 +71,28 @@ public class RLAgent extends Agent {
     }
 
     private Action chooseAction() {
+        switch (policy) {
+            case EPSILON_GREEDY:
+                return chooseActionEpsilonGreedily();
+            default:
+                throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
+    private Action chooseActionEpsilonGreedily() {
+        if (random.nextDouble() < epsilon) {
+            return chooseActionRandomly();
+        }
+        return chooseActionGreedily();
+    }
+
+    private Action chooseActionGreedily() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private Action chooseActionRandomly() {
+        ArrayList<Action> actions = getCurrentState().getActions();
+        return actions.get(random.nextInt(actions.size()));
     }
 
     private void updateQMatrix(int reward) throws MyException {
@@ -85,7 +111,7 @@ public class RLAgent extends Agent {
         double maxQValue = getQValue(fromState, actions.get(0));
 
 		/* Iterate through all the possible actions and reset the maxQValue if a
-		 * bigger value is found. */
+         * bigger value is found. */
         if (actions.size() > 1) {
             for (int i = 1; i < actions.size(); i++) {
                 if (getQValue(fromState, actions.get(i)) > maxQValue) {
