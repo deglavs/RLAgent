@@ -10,6 +10,10 @@ public class QLearning {
     private static final int NUMBER_OF_EPISODES = 100;
     /* Discount factor. */
     private static final double GAMMA = 0.8;
+    /* Learning rate. */
+    private static final double ALPHA = 0.5;
+    /* Exploration rate. */
+    private static final double EPSILON = 0.05;
     private Environment environment;
     private Agent agent;
 
@@ -17,9 +21,9 @@ public class QLearning {
 
     private Random random;
 
-    public QLearning(Environment e, Agent a) {
+    public QLearning(Environment e) {
         environment = e;
-        agent = a;
+        agent = new RLAgent(GAMMA, ALPHA, EPSILON, Policy.EPSILON_GREEDY);
         startStates = environment.getStartStates();
     }
 
@@ -29,7 +33,7 @@ public class QLearning {
         }
     }
 
-    public void runEpisode() throws MyException {
+    private void runEpisode() throws MyException {
         int reward;
         State stateFrom = startStates.get(random.nextInt(startStates.size()));
         Action action = agent.observeStartState(stateFrom);
