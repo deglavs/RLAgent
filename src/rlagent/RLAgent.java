@@ -20,6 +20,7 @@ import java.util.HashMap;
 public class RLAgent extends Agent {
     private HashMap<State, ActionQValues> qMatrix;
     private State previousState;
+    private Action lastAction;
 
     public RLAgent() {
         super();
@@ -32,7 +33,8 @@ public class RLAgent extends Agent {
             qMatrix.put(state, new ActionQValues(state.getActions()));
         }
         setCurrentState(state);
-        return chooseAction();
+        lastAction = chooseAction();
+        return lastAction;
     }
 
     @Override
@@ -40,7 +42,8 @@ public class RLAgent extends Agent {
         if (!qMatrix.containsKey(state)) {
             qMatrix.put(state, new ActionQValues(state.getActions()));
         }
-        throw new UnsupportedOperationException("Not supported yet.");
+        setCurrentState(state);
+        updateQMatrix(reward);
     }
 
     @Override
@@ -48,14 +51,17 @@ public class RLAgent extends Agent {
         if (!qMatrix.containsKey(newState)) {
             qMatrix.put(newState, new ActionQValues(newState.getActions()));
         }
-        return chooseAction();
+        setCurrentState(newState);
+        updateQMatrix(reward);
+        lastAction = chooseAction();
+        return lastAction;
     }
 
     private Action chooseAction() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void updateQMatrix() {
+    private void updateQMatrix(int reward) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
