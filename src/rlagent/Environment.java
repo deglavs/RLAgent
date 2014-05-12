@@ -21,6 +21,7 @@ import java.util.List;
  * @author deglavs
  */
 public interface Environment {
+    /* Set of states and set of actions. */
 
     public int getReward(State state, Action action) throws MyException;
 

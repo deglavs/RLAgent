@@ -30,6 +30,7 @@ public class RLAgent extends Agent {
     /* Discount factor. */
     private double gamma;
     private double epsilon;
+    private boolean reduceEpsilon = true;
 
     public RLAgent(double gamma, double alpha, double epsilon, Policy policy) {
         super();
@@ -47,6 +48,10 @@ public class RLAgent extends Agent {
         }
         setCurrentState(state);
         lastAction = chooseAction();
+        previousState = state;
+        if (reduceEpsilon) {
+            reduceEpsilon();
+        }
         return lastAction;
     }
 
@@ -67,6 +72,7 @@ public class RLAgent extends Agent {
         setCurrentState(newState);
         updateQMatrix(reward);
         lastAction = chooseAction();
+        previousState = newState;
         return lastAction;
     }
 
@@ -137,5 +143,13 @@ public class RLAgent extends Agent {
             actionQValues.setQValue(action, qValue);
         }
         throw new MyException("No state in qMatrix: " + fromState);
+    }
+
+    private void reduceEpsilon() {
+        if (epsilon > 0.01) {
+            epsilon = epsilon - 0.01;
+        } else if (epsilon != 0) {
+            epsilon = 0;
+        }
     }
 }

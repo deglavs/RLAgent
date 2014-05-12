@@ -27,6 +27,10 @@ public class QLearning {
         startStates = environment.getStartStates();
     }
 
+    public static void main(String [ ] args) {
+        // TODO: Pass environment class name and policy as arguments.
+    }
+
     public void run() throws MyException {
         for (int i = 0; i < NUMBER_OF_EPISODES; i++) {
             runEpisode();
